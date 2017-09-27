@@ -10,21 +10,22 @@ int thrs;          // Target Hours
 int tmins;         // Target Mins
 int tsecs;         // Target Seconds
 int duration;      // Duration of Pump Cycle
-int CO2 = A0;      // CO2 Relay Output Pin
+int CO2 = A15;      // CO2 Relay Output Pin
+
 
 int swtog;        // Toggle Function
-int swtogip = 6;  // Switch for Toggle Function
+int swtogip = A6;  // Switch for Toggle Function
 int swhrs;        // Hrs Change
-int swhrsip = 7;  // Switch for Hours Change
+int swhrsip = A7;  // Switch for Hours Change
 int swmins;       // Mins Change
-int swminsip = 8; // Switch for Mins Change
+int swminsip = A8; // Switch for Mins Change
 int swsecs;       // Seconds Change
-int swsecsip = 9; // Switch for Seconds Change
+int swsecsip = A9; // Switch for Seconds Change
 int prime;        // Prime Pump
-int swprimeip = 10; // Switch for Prime Pump
+int swprimeip = A10; // Switch for Prime Pump
 
 // Initialise LCD library & configuration
-const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
+const int rs = 8, en = 9, d4 = 4, d5 = 5, d6 = 6, d7 = 7;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 
 void setup() {
@@ -50,24 +51,41 @@ void setup() {
 }
 
 void loop() {
-   lcd.setCursor(0,0);           // Set to starting write location
-   DateTime now = rtc.now();     // Align Arduino clock to RTC clock
-   lcd.print("Date: ");          // OUTPUT DATE & TIME - FILLED WITH APPROPRIATE
-   lcd.print(now.day(), DEC);
-   lcd.print("/");
-   lcd.print(now.month(), DEC);
-   lcd.print("/");
-   lcd.print(now.year(), DEC);
-   lcd.print("   ");
-   lcd.setCursor(0,1);
-   lcd.print("Time: ");
-   lcd.print(now.hour(), DEC);
-   lcd.print(":");
-   lcd.print(now.minute(), DEC);
-   lcd.print(":");
-   lcd.print(now.second(), DEC);
-   lcd.print("   ");
-   lcd.display();
+  int x;
+  x = analogRead(0);
+  lcd.setCursor(0,0);           // Set to starting write location
+  DateTime now = rtc.now();     // Align Arduino clock to RTC clock
+  if (x < 60) {
+    // Right Button Pressed
+  }
+  else if (x < 200) {
+    // Up Button Pressed
+  }
+  else if (x < 400) {
+    // Down Button Pressed
+  }
+  else if (x < 600) {
+    // Left Button Pressed
+  }
+  else if (x < 800) {
+    // Select Button Pressed
+  }
+  lcd.print("Date: ");          // OUTPUT DATE & TIME - FILLED WITH APPROPRIATE
+  lcd.print(now.day(), DEC);
+  lcd.print("/");
+  lcd.print(now.month(), DEC);
+  lcd.print("/");
+  lcd.print(now.year(), DEC);
+  lcd.print("   ");
+  lcd.setCursor(0,1);
+  lcd.print("Time: ");
+  lcd.print(now.hour(), DEC);
+  lcd.print(":");
+  lcd.print(now.minute(), DEC);
+  lcd.print(":");
+  lcd.print(now.second(), DEC);
+  lcd.print("   ");
+  lcd.display();
 
    csecs = (now.second());        // Update current time to mem locations
    cmins = (now.minute());
